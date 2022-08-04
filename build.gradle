@@ -2,7 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.9'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'war'
+//	id 'war'
 }
 
 group = 'com.crud'
@@ -11,6 +11,10 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
+}
+
+jar {
+	enabled = false
 }
 
 dependencies {
@@ -26,11 +30,13 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok:1.18.24'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+	runtimeOnly group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+	runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.4.0'
 
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
