@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
 
-import static org.hibernate.bytecode.enhance.spi.interceptor.BytecodeInterceptorLogging.LOGGER;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +26,8 @@ public class TrelloClient {
 
     private final RestTemplate restTemplate;
     private final TrelloConfig trelloConfig;
+
+    private static Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);
 
     public List<TrelloBoardDto> getTrelloBoards() {
         URI url = getUrlAddress();
