@@ -26,13 +26,21 @@ public class SimpleEmailService {
     public void send(final Mail mail) {
         log.info("Starting email preparation...");
         try {
-            SimpleMailMessage mailMessage = createMailMessage(mail);
-            javaMailSender.send(mailMessage);
-            log.info("Email has been sent.");
             javaMailSender.send(createMimeMessage(mail));
             log.info("Email has been sent.");
         } catch (MailException e) {
             log.error("Failed to process email sending: " + e.getMessage(), e);
+        }
+    }
+
+    public void sendDaily(final Mail mail) {
+        log.info("Starting email preparation...");
+        try {
+            SimpleMailMessage mailMessage = createMailMessage(mail);
+            javaMailSender.send(mailMessage);
+            log.info("Daily email has been sent.");
+        } catch (MailException e) {
+            log.error("Failed to process daily email sending: " + e.getMessage(), e);
         }
     }
 
@@ -50,7 +58,7 @@ public class SimpleEmailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()));
+        mailMessage.setText(mailCreatorService.dailyTaskCountEmail(mail.getMessage()));
         return mailMessage;
     }
 }
