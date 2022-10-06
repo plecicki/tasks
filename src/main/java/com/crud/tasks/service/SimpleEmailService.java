@@ -36,8 +36,7 @@ public class SimpleEmailService {
     public void sendDaily(final Mail mail) {
         log.info("Starting email preparation...");
         try {
-            SimpleMailMessage mailMessage = createMailMessage(mail);
-            javaMailSender.send(mailMessage);
+            javaMailSender.send(createMimeDailyMessage(mail));
             log.info("Daily email has been sent.");
         } catch (MailException e) {
             log.error("Failed to process daily email sending: " + e.getMessage(), e);
@@ -53,12 +52,12 @@ public class SimpleEmailService {
         };
     }
 
-
-    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mailCreatorService.dailyTaskCountEmail(mail.getMessage()));
-        return mailMessage;
+    private MimeMessagePreparator createMimeDailyMessage(final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.dailyTaskCountEmail(mail.getMessage()), true);
+        };
     }
 }
