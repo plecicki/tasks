@@ -33,6 +33,7 @@ public class MailCreatorService {
                         companyConfig.getCompanyGoal() + "\n" +
                         companyConfig.getCompanyPhone() + "\n" +
                         companyConfig.getCompanyEmail());
+        context.setVariable("show_button", false);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
 }
